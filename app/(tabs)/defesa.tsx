@@ -23,21 +23,22 @@ export default function Home() {
   // DANO 
   const danoCalc = useDanoStore((state) => state.dano);
   const setDano = useDanoStore((state) => state.setDefesa);
+
+  // ESCUDO
+  const setEscudo = useEscudoStore((state) => state.setEscudoAtual);
+  const setEscudoMax = useEscudoStore((state) => state.setEscudoMaximo)
+  const escudoCalc = useEscudoStore((state) => state.escudoAtual);
+
+  // CONTROLE DE ESTADO PARA ATUALIZAR AS INTERAÇÕES DE DANO
   useEffect(() => {
     if (danoCalc > 0) {
       setValorDano(String(danoCalc));
     }
-  }, [danoCalc]);
+    if (escudoCalc > 0) {
+      setValorEscudo(String(escudoCalc));
+    }
+  }, [danoCalc, escudoCalc]);
 
-    // ESCUDO
-    const setEscudo = useEscudoStore((state) => state.setEscudoAtual);
-    const setEscudoMax = useEscudoStore((state) => state.setEscudoMaximo)
-    const escudoCalc = useEscudoStore((state) => state.escudoAtual)
-    useEffect(() => {
-      if (escudoCalc > 0) {
-        setValorEscudo(String(escudoCalc));
-      }
-    }, [escudoCalc]);
   
   // Estado para Armazenar os valores dos campos de entrada de Defesa
   const [valorDano, setValorDano] = useState('');

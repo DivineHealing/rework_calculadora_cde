@@ -19,6 +19,7 @@ const trunc = (num, dec = 0) => {
   const setPen = useDanoStore((state) => state.setPenetracao);
   const reforco = useDanoStore((state) => state.reforco);
   const hab = useDanoStore((state) => state.habilidade);
+  const setDano = useDanoStore((state) => state.setDano);
 
   // VARIAVEIS DE CALCULO
   const [valorStatus, setValorStatus] = useState('');
@@ -81,13 +82,13 @@ const trunc = (num, dec = 0) => {
 
       // PASSA PRO ZUSTAND
       setPen(penC);
-      
+      setDano(calculatedResult)
       // Define o resultado
       setResultadoDano(calculatedResult);
       return calculatedResult;
 
     } else {
-      alert('Por favor, insira números válidos em todos os campos.');
+      alert('Por favor, insira números válidos nos campos.');
     }
   };
   const maxLength = 12

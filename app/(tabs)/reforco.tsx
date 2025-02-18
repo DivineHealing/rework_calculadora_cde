@@ -41,18 +41,30 @@ export default function Home() {
       !isNaN(numberRef4)
   )  {
     const calculatedResult = trunc((((numberRef1+numberRef2)*numberRef3)*numberRef4));
-    setReforco(calculatedResult);
-    setResultadoReforco(calculatedResult);
+
+    if (calculatedResult == 0){
+      alert('Preencha os campos com seus respectivos valores, para que seja realizado o Calculo.')
+      setResultadoReforco(null);
+    }
+      else{
+        setReforco(calculatedResult);
+        setResultadoReforco(calculatedResult);
+      }
   }
+  
  };
 
   const calcularHabilidade = () => {
   const numberHab1 = parseFloat(statusHabilidade) || 0;
   const numberHab2 = parseFloat(baseHabilidade)/100 || 1;
-
+  if (numberHab1 == 0){
+    alert('Informe o valor de Status.')
+    setResultadoHabilidade(null)
+  } else {
   const habilidade = trunc(numberHab1*numberHab2);
-  setHab(habilidade);
   setResultadoHabilidade(habilidade);
+  setHab(habilidade);
+  }
 };
   return (
 

@@ -29,10 +29,12 @@ export default function Vigor() {
         if (!isNaN(buff)) {
           let vidat = trunc(valor * (1+(buff/100))) // Calculo com base na vida Maxima
           setVida(vidat); 
+          setNovaVidaBuffada('');
         } else {
-        setVida(valor); }
+        setVida(valor);
+        setNovaVidaBuffada(''); }
       } else {
-        console.log('Valor inválido no input.');
+        alert('Informe os valores de entrada.');
       }
   };
 
@@ -47,10 +49,14 @@ export default function Vigor() {
         if (valorP > 0) {
           let escudoT = trunc((vida*(valorP/100))+valorF)
           setEscudo(escudoT)
+          setNovoValorEscudoF('')
+          setNovoValorEscudoP('')
         } else {
-          setEscudo(valorF); }
+          setEscudo(valorF);
+          setNovoValorEscudoF('')
+          setNovoValorEscudoP('') }
       } else {
-        console.log('Valor inválido no input.');
+        alert('Informe os valores de entrada.');
       }
   };
 
