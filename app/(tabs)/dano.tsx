@@ -1,8 +1,8 @@
 import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, View, Text, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import setVidaAtual from '~/app/(tabs)/atributo'
-import { useVidaDanoStore } from '~/components/zustand'
+import { useDanoStore } from '~/components/zustand'
+
 // CARREGAR AS FONTES DE TEXTO
 import { useLoadFonts } from '~/components/fonts';
 
@@ -12,12 +12,15 @@ const trunc = (num, dec = 0) => {
   return Math.trunc(num * factor) / factor;
 };
 
-  export default function Home() {
-  // ZUSTAND PARA ENVIAR O DANO A VIDA **TESTE**
-  const setDano = useVidaDanoStore((state) => state.setDano);
+  export default function Home() {    
+  const fontsLoaded = useLoadFonts();
+
+  // ZUSTAND PARA ENVIAR O DANO A VIDA **TESTE** 
+  const setPen = useDanoStore((state) => state.setPenetracao);
+  const reforco = useDanoStore((state) => state.reforco);
+  const hab = useDanoStore((state) => state.habilidade);
 
   // VARIAVEIS DE CALCULO
-  
   const [valorStatus, setValorStatus] = useState('');
   const [valorDmgFix, setValorDmgFix] = useState('');
   const [valorAumDmgFix, setValorAumDmgFix] = useState('');
@@ -28,10 +31,28 @@ const trunc = (num, dec = 0) => {
   const [valorDmgFinal, setValorDmgFinal] = useState('');
   const [resultadoDano, setResultadoDano] = useState(null);
 
+  // ENVIO DO VALOR DE PENETRAÇÃO
+  const [penetracao, setPenetracao] = useState('');
+
+  // FUNÇÃO PARA APARECER O VALOR DO REFORÇO NO INPUT DO DANO FIXO OU REFORÇO
+  useEffect(() => {
+    if (reforco > 0) {
+      setValorDmgFix(String(reforco));
+    }
+  }, [reforco]);
+
+  // FUNÇÃO PARA APARECER O VALOR DO REFORÇO NO INPUT DO VALOR HABILIDADE
+  useEffect(() => {
+    if (hab > 0) {
+      setValorHab(String(hab));
+    }
+  }, [hab]);
+
   const calcularDano = () => {
     // Converte os valores para números
+    const penC = parseInt(penetracao) || 0;
     const number1 = parseFloat(valorStatus)  || 0;
-    const number2 = parseFloat(valorDmgFix) || 0;
+    const number2 = parseFloat(valorDmgFix) || reforco;
     const number3 = parseFloat(valorAumDmgFix)/100+1 || 1;
     const number4 = parseFloat(valorHab) || 0;
     const number5 = parseFloat(valorAmp)/100+1 || 1;
@@ -59,7 +80,7 @@ const trunc = (num, dec = 0) => {
       );
 
       // PASSA PRO ZUSTAND
-      setDano(calculatedResult);
+      setPen(penC);
       
       // Define o resultado
       setResultadoDano(calculatedResult);
@@ -69,13 +90,6 @@ const trunc = (num, dec = 0) => {
       alert('Por favor, insira números válidos em todos os campos.');
     }
   };
-/*
-  useEffect(() => {
-    if (resultadoDano > 0) {
-        setDano(resultadoDano);
-    }
-}, [resultadoDano])*/
-  
   const maxLength = 12
   
   return (
@@ -83,19 +97,20 @@ const trunc = (num, dec = 0) => {
     <Stack.Screen options={{ title: 'Calculo de Dano', headerStyle:{
         backgroundColor: 'rgb(39, 39, 39)',
       },      
-      headerTintColor: 'rgb(255, 255, 255)',
+      headerTintColor: '#F8D3CF',
       headerTitleStyle: {
         fontWeight: 'bold',
+        fontFamily: 'baskerville'
       }
       }} />
     <View style={styles.principal}>
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={styles.container}>
-      <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor de Status</Text>
+      <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#F8D3CF'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor de Status</Text>
        <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -115,11 +130,11 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorStatus(text)}
           value={valorStatus}
         />
-        <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor do Dano Fixo ou Reforço</Text>
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: "#F8D3CF"}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor do Dano Fixo ou Reforço</Text>
         <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -139,11 +154,11 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorDmgFix(text)}
           value={valorDmgFix}
         />
-        <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor Aum. Dano Fix (%)</Text>
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#F8D3CF'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor Aum. Dano Fix (%)</Text>
         <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -163,11 +178,11 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorAumDmgFix(text)}
           value={valorAumDmgFix}
         />
-        <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor da Habilidade</Text>
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#F8D3CF'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor da Habilidade</Text>
         <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -187,11 +202,11 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorHab(text)}
           value={valorHab}
         />
-        <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor de Amplificação (%)</Text>
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#F8D3CF'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor de Amplificação (%)</Text>
         <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -211,11 +226,11 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorAmp(text)}
           value={valorAmp}
         />
-        <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor do Dado</Text>
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#F8D3CF'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor do Dado</Text>
         <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -235,11 +250,11 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorDado(text)}
           value={valorDado}
         />
-        <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor Amp. Externa (%)</Text>
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#F8D3CF'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor Amp. Externa (%)</Text>
         <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -259,11 +274,11 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorAmpExt(text)}
           value={valorAmpExt}
         />
-        <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#ffd700'}]}>Valor Dano Final (%)</Text>
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#F8D3CF'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor Dano Final (%)</Text>
         <TextInput
           style={[              
             {backgroundColor: '#181c1c'}, // Fundo branco para contraste
-            {borderColor: '#ffd700'},
+            {borderColor: 'white'},
             {borderWidth: 1},
             {padding: 10},
             {margin: 3},
@@ -283,12 +298,37 @@ const trunc = (num, dec = 0) => {
           onChangeText={text => setValorDmgFinal(text)}
           value={valorDmgFinal}
         />
+        <Text style={[styles.btnText, {alignSelf:"left"}, {color: '#e60000'}, {paddingHorizontal: 20}, {fontSize: 12}]}>Valor da Penetração (%)</Text>
+        <TextInput
+          style={[              
+            {backgroundColor: '#181c1c'}, // Fundo branco para contraste
+            {borderColor: '#e60000'},
+            {borderWidth: 1},
+            {padding: 10},
+            {margin: 3},
+            {color: '#fffed7'},
+            {minWidth: 200},
+            {width: '75%'},
+            {maxWidth: 200},
+            {maxHeight: 50},
+            {borderRadius: 13},
+            {fontFamily: 'Barlow'},
+            {fontSize: 12},
+          ]}
+          keyboardType="number-pad"
+          placeholder="Valor da Penetração (%)"
+          placeholderTextColor="#e60000"
+          maxLength={3}
+          onChangeText={text => setPenetracao(text)}
+          value={penetracao}
+        />
         
         
         {resultadoDano !== null && (
         <Text style={styles.result}>Dano Causado: {resultadoDano.toLocaleString('pt-BR')}</Text>
       )}
-      <TouchableOpacity style={[
+      <TouchableOpacity 
+      style={[
         {borderWidth: 3}, // Largura da borda
         {backgroundColor: 'transparent'}, // Fundo transparente
         {paddingVertical: 5},
@@ -300,7 +340,7 @@ const trunc = (num, dec = 0) => {
         {maxWidth: 250},
         {alignSelf: 'center'},        
         {alignItems: 'center'},
-        {borderColor: "#ffd700"}
+        {borderColor: "#F8D3CF"}
       ,]} onPress={calcularDano}>
         <Text style={[styles.btnText, {alignSelf:"center"}, {color: 'white'}]}>Calcular</Text>
       </TouchableOpacity>
@@ -332,10 +372,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#ffc55f',
+    color: '#F8D3CF',
     shadowOpacity: 1,
     textShadowRadius: 5,
-    shadowColor: '#ffec5e',
+    shadowColor: '#F8D3CF',
     fontFamily: 'Barlow',
   },
   btnText: {
@@ -343,7 +383,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginLeft: 2,
     fontFamily: 'Barlow',
-    color: "#ffefd5",
     alignSelf: 'center',
   },
 });

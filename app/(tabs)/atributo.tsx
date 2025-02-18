@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 // ZUZSTAND
-import { useEscudoStore, useVidaStore, useVidaDanoStore, useManaVigorStore, useEscudoDmgStore } 
+import { useEscudoStore, useVidaStore, useDanoStore } 
 from '~/components/zustand';
 
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
@@ -11,37 +11,36 @@ import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 // CARREGAR AS FONTES DE TEXTO
 import { useLoadFonts } from '~/components/fonts';
 
-export default function Home(p0: (prevVida: any) => any) {
-  // ESCUDO
-  const escudoMaxima = useEscudoStore((state) => state.escudoF);   // Recebe o Valor do Escudo Maximo
-  const escudoDmg = useEscudoDmgStore((state) => state.escudoDmg);  // Recebe o Valor do Dano no Escudo
-  const danificarEscudo = () => {   // ATUALIZA O VALOR DO ESCUDO
-    const escudoDano = parseInt(escudoDmg, 10);
-      if (!isNaN(escudoDano)) {
-        setEscudoAtual(prevVida => Math.min(prevVida + escudoDano, escudoMaxima)); // Garante que a vida não ultrapasse o máximo        
+export default function Home() {
+  const fontsLoaded = useLoadFonts();
+
+  // ESCUDO - APENAS MOSTRAR O VALOR DO ESCUDO
+  const escudoMaxima = useEscudoStore((state) => state.escudoMaximo);   // Recebe o Valor do Escudo Maximo
+  const escudoAtual = useEscudoStore((state) => state.escudoAtual);   // Recebe o Valor do Escudo Atual
+
+  // VIDA
+  // Atributos
+  const vidaMaxima = useVidaStore((state) => state.vidaMaxima);   // Recebe o Valor da Vida Maximo
+  const vidaAtual = useVidaStore((state) => state.vidaAtual);   // Recebe o Valor da Vida Atual
+  // Dano aplicado a Vida
+  const vidaDano = useDanoStore((state) => state.defesa);  // Recebe o Valor do Dano na Vida
+  // Chamada do Calculo de Vida Atual 
+  const { setDanoVida } = useVidaStore();
+  // Passando os valores de Dano para o Calculo
+  const danificarVida = () => {
+      const valor = parseInt(vidaDano, 10);
+      if(!isNaN(vidaDano) && vidaDano > 0) {
+        setDanoVida(vidaDano);
+      } 
+      else if (vidaDano === 0) {
+        return vidaAtual;
       }
   };
 
-  // VIDA
-  
-  const vidaMaxima = useVidaStore((state) => state.vidaAtual);   // Recebe o Valor da Vida Maximo
-  const vidaDmg = useVidaDanoStore((state) => state.dano);  // Recebe o Valor do Dano na Vida
-  const danificarVida = () => {   // ATUALIZA O VALOR DA VIDA
-  const vidaDano = parseInt(vidaDmg, 10);
-  setVidaAtual(prevVida => {
-    const novoValorVida = prevVida - vidaDano;
-
-    // (Opcional, mas recomendado) Lidar explicitamente com dano zero
-    if (vidaDano === 0) {
-        console.log("Dano calculado é zero. Não atualizando vida."); // Para debug
-        return prevVida; // Retorna a vida anterior se o dano for zero
-    }
-    return novoValorVida;
-  });
-  };
-
-  const manaMaxima = useManaVigorStore((state) => state.mana);   // Recebe o Valor do Escudo Maximo
-  const vigorMaxima = useManaVigorStore((state) => state.vigor);  // Recebe o Valor do Dano no Escudo
+  const [manaMaxima, setManaMaxima] = useState(100);
+  const [manaAtual, setManaAtual] = useState(100);
+  const [vigorMaxima, setVigorMaxima] = useState(100);
+  const [vigorAtual, setVigorAtual] = useState(100);
 
   // Navegação
   const router = useRouter();
@@ -55,21 +54,16 @@ export default function Home(p0: (prevVida: any) => any) {
   const abrirVigor = () => {
     router.push('/vigor'); 
   };
-
-  // Valores da Vida
-  const [vidaAtual, setVidaAtual] = useState(vidaMaxima);
-  const [escudoAtual, setEscudoAtual] = useState(0);
-  const [manaAtual, setManaAtual] = useState(100); 
-  const [vigorAtual, setVigorAtual] = useState(100);
   
   return (
     <>
       <Stack.Screen options={{ title: 'Atributos do Personagem', headerStyle:{
         backgroundColor: 'rgb(39, 39, 39)',
       },      
-      headerTintColor: 'rgb(255, 255, 255)',
+      headerTintColor: '#F8D3CF',
       headerTitleStyle: {
         fontWeight: 'bold',
+        fontFamily: 'baskerville'
       }
       }} />
       <View style={styles.container}>

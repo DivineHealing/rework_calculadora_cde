@@ -4,18 +4,30 @@ import { useEscudoStore } from '~/components/zustand';
 import { useVidaStore } from '~/components/zustand';
 import React, { useEffect, useState } from 'react';
 
+const trunc = (num, dec = 0) => {
+  const factor = 10 ** dec;
+  return Math.trunc(num * factor) / factor;
+};
+
 export default function Vigor() {
-  const setVida= useVidaStore((state) => state.setVidaAtual);
-  const vida = useVidaStore((state) => state.vidaAtual); // Pegue o valor atual do escudo
-  const [novoValorVida, setNovoValorVida] = useState('');
+  const setVida = useVidaStore((state) => state.setVidaMaxima);
+  const vida = useVidaStore((state) => state.vidaMaxima); // Pegue o valor atual do escudo
+  const [novoValorVida, setNovoValorVida] = useState(vida);
   const [novoValorBuff, setNovaVidaBuffada] = useState('');
 
-    const handleAlterarVida = () => {
+  // FUNÇÃO PARA APARECER O VALOR DA VIDA NO SEU INPUT DE VIDA FIXA
+  useEffect(() => {
+    if (vida > 0) {
+      setNovoValorVida(String(vida));
+    }
+  }, [vida]);
+
+    const handleAlterarVida = () => { // Calculo da quantia de Vida
       const valor = parseInt(novoValorVida, 10);
-      const buff = parseInt(novoValorBuff, 10);
+      const buff = parseInt(novoValorBuff, 10) || 0;
       if (!isNaN(valor)) {
         if (!isNaN(buff)) {
-          let vidat = valor * (1+(buff/100))
+          let vidat = trunc(valor * (1+(buff/100))) // Calculo com base na vida Maxima
           setVida(vidat); 
         } else {
         setVida(valor); }
@@ -24,23 +36,20 @@ export default function Vigor() {
       }
   };
 
-  const setEscudo = useEscudoStore((state) => state.setEscudoF);
-  const escudo = useEscudoStore((state) => state.escudoF); // Pegue o valor atual do escudo
+  const setEscudo = useEscudoStore((state) => state.setEscudoMaximo);
   const [novoValorEscudoP, setNovoValorEscudoP] = useState('');
   const [novoValorEscudoF, setNovoValorEscudoF] = useState('');
 
-    const handleAlterarEscudo = () => {
-      const valor = parseInt(novoValorEscudoP, 10);
-      const valorF = parseInt(novoValorEscudoF, 10);
-      if (!isNaN(valor)) {
-        if (!isNaN(valorF)) {
-          let escudoT = (vida*(valor/100))+valorF
+    const handleAlterarEscudo = () => { // Calculo da quantia de Escudo
+      const valorP = parseInt(novoValorEscudoP, 10) || 0;
+      const valorF = parseInt(novoValorEscudoF, 10) || 0;
+      if (!isNaN(valorP) || !isNaN(valorF)) {
+        if (valorP > 0) {
+          let escudoT = trunc((vida*(valorP/100))+valorF)
           setEscudo(escudoT)
-        }
-        
+        } else {
+          setEscudo(valorF); }
       } else {
-        // Não exiba um alerta a cada digitação inválida
-        // Você pode querer exibir uma mensagem de erro ao lado do input
         console.log('Valor inválido no input.');
       }
   };

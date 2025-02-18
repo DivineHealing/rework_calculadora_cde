@@ -9,7 +9,7 @@ export const HeaderButton = forwardRef<typeof Pressable, { onPress?: () => void 
         {({ pressed }) => (
           <FontAwesome
             name="widget"
-            size={25}
+            size={40}
             color="gray"
             style={[
               styles.headerRight,
