@@ -178,12 +178,13 @@ export default function Home() {
                 {borderRadius: 13},
                 {fontFamily: 'Barlow'},
                 {fontSize: 12},
-              ]}                 
-                placeholder="Valor do Dano Recebido"
-                placeholderTextColor="#f8d3cf"
-                maxLength={maxLength}
-                onChangeText={text => setValorDano(text)}
-                value={valorDano}
+              ]}
+              keyboardType="number-pad"            
+              placeholder="Valor do Dano Recebido"
+              placeholderTextColor="#f8d3cf"
+              maxLength={maxLength}
+              onChangeText={text => setValorDano(text)}
+              value={valorDano}
               />
               <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#e60000'}]}>Valor do Esmagamento</Text>
               <TextInput
@@ -202,12 +203,12 @@ export default function Home() {
                 {fontFamily: 'Barlow'},
                 {fontSize: 12},
               ]}    
-                keyboardType="number-pad"
-                placeholder="Valor do Esmagamento"
-                placeholderTextColor="#e60000"
-                maxLength={4}
-                onChangeText={text => setEsmagamento(text)}
-                value={esmagamento}
+              keyboardType="number-pad"
+              placeholder="Valor do Esmagamento"
+              placeholderTextColor="#e60000"
+              maxLength={4}
+              onChangeText={text => setEsmagamento(text)}
+              value={esmagamento}
               />
               <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#F8D3CF'}]}>Valor do Escudo Possuido</Text>
               <TextInput
@@ -226,12 +227,12 @@ export default function Home() {
                 {fontFamily: 'Barlow'},
                 {fontSize: 12},
               ]}    
-                keyboardType="number-pad"
-                placeholder="Valor do Escudo Possuido"
-                placeholderTextColor="#f8d3cf"
-                maxLength={maxLength}
-                onChangeText={text => setValorEscudo(text)}
-                value={valorEscudo}
+              keyboardType="number-pad"
+              placeholder="Valor do Escudo Possuido"
+              placeholderTextColor="#f8d3cf"
+              maxLength={maxLength}
+              onChangeText={text => setValorEscudo(text)}
+              value={valorEscudo}
               />
               <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#F8D3CF'}]}>Valor da Redução Bloq. (%)</Text>
               <TextInput
@@ -250,12 +251,12 @@ export default function Home() {
                 {fontFamily: 'Barlow'},
                 {fontSize: 12},
               ]}    
-                keyboardType="number-pad"
-                placeholder="Valor da Redução Bloq. (%)"
-                placeholderTextColor="#f8d3cf"
-                maxLength={2}
-                onChangeText={text => setValorBloqRed(text)}
-                value={valorBloqRed}
+              keyboardType="number-pad"
+              placeholder="Valor da Redução Bloq. (%)"
+              placeholderTextColor="#f8d3cf"
+              maxLength={2}
+              onChangeText={text => setValorBloqRed(text)}
+              value={valorBloqRed}
               />
               <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#F8D3CF'}]}>Valor da Resist. Bloq. (%)</Text>
               <TextInput
@@ -274,12 +275,12 @@ export default function Home() {
                 {fontFamily: 'Barlow'},
                 {fontSize: 12},
               ]}    
-                keyboardType="number-pad"
-                placeholder="Valor da Resist. Bloq. (%)"
-                placeholderTextColor="#f8d3cf"
-                maxLength={3}
-                onChangeText={text => setValorBloqRes(text)}
-                value={valorBloqRes}
+              keyboardType="number-pad"
+              placeholder="Valor da Resist. Bloq. (%)"
+              placeholderTextColor="#f8d3cf"
+              maxLength={3}
+              onChangeText={text => setValorBloqRes(text)}
+              value={valorBloqRes}
               />
               <Text style={[styles.btnText, {alignSelf:"left"}, {color: 'white'}, {paddingHorizontal: 20}, {fontSize: 12}, {color: '#F8D3CF'}]}>Valor da Defesa Bloq</Text>
               <TextInput

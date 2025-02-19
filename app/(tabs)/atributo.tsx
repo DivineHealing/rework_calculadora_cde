@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 // ZUZSTAND
-import { useEscudoStore, useVidaStore, useDanoStore } 
+import { useEscudoStore, useVidaStore, useDanoStore, useManaVigorStore } 
 from '~/components/zustand';
 
 import Icon from '@expo/vector-icons/MaterialCommunityIcons';
@@ -37,10 +37,10 @@ export default function Home() {
       }
   };
 
-  const [manaMaxima, setManaMaxima] = useState(100);
-  const [manaAtual, setManaAtual] = useState(100);
-  const [vigorMaxima, setVigorMaxima] = useState(100);
-  const [vigorAtual, setVigorAtual] = useState(100);
+  const manaMaxima = useManaVigorStore((state) => state.manaMax)
+  const manaAtual = useManaVigorStore((state) => state.manaAtual)
+  const vigorMaxima = useManaVigorStore((state) => state.vigorMax)
+  const vigorAtual = useManaVigorStore((state) => state.vigorAtual)
 
   // Navegação
   const router = useRouter();
@@ -80,7 +80,7 @@ export default function Home() {
           <Text style={styles.numero}> {escudoMaxima.toLocaleString('pt-BR')}</Text>
         </Icon>
 
-        <Icon name="yin-yang" size={30} color= "#403ffc">
+        <Icon name="yin-yang" size={30} color= "#4747ff">
           <Text style={styles.numero}> {manaAtual}</Text>
           <Text> |</Text>
           <Text style={styles.numero}> {manaMaxima}</Text>
@@ -143,7 +143,7 @@ export default function Home() {
         {maxWidth: 250},
         {alignSelf: 'center'},        
         {alignItems: 'center'},
-        {borderColor: "#403ffc"}
+        {borderColor: "#4747ff"}
         ,]} onPress={() => abrirMana() }>
           <Text style={[styles.btnText, {alignSelf:"center"}, {color: 'white'}]}>Mana</Text>
         </TouchableOpacity>
