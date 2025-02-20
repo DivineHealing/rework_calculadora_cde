@@ -152,7 +152,7 @@ export default function Home() {
             keyboardType="numeric"
             placeholder="Aumento Dano Fixo"
             placeholderTextColor="#f8d3cf"
-            maxLength={maxLength}
+            maxLength={3}
             onChangeText={text => setValorAumDmgFixRef(text)}
             value={valorAumDmgFixRef}
           />
@@ -177,7 +177,7 @@ export default function Home() {
             keyboardType="numeric"
             placeholder="Valor da Amplificação"
             placeholderTextColor="#f8d3cf"
-            maxLength={maxLength}
+            maxLength={3}
             onChangeText={text => setValorAmpRef(text)}
             value={valorAmpRef}
         />
@@ -253,7 +253,7 @@ export default function Home() {
               value={statusHabilidade}
           />
           {resultadoHabilidade !== null && (
-            <Text style={styles.result}>Valor do Reforço: {resultadoHabilidade.toLocaleString('pt-BR')}</Text>
+            <Text style={styles.result}>Valor do Habilidade: {resultadoHabilidade.toLocaleString('pt-BR')}</Text>
           )}
             <TouchableOpacity 
             style={[

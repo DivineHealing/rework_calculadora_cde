@@ -54,7 +54,6 @@ export default function Home() {
 
 
   const calcularDefesa = (defesa) => {
-    console.log(danoCalc);
     const esmaga = parseFloat(esmagamento)/100 || 0;
     const pen = parseFloat(penetracao) || 0;
     const numberDef1 = parseFloat(valorDano)  || 0;
@@ -87,7 +86,8 @@ export default function Home() {
           setValorEscudo(String(''));
           setResultadoDefesa('Escudo Destruido');
         };
-    } else  { 
+    } 
+    else  { 
       let penbloq = pen - numberDef4;
       let defred = penbloq - numberDef4;
           

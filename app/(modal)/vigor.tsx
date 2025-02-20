@@ -1,11 +1,13 @@
 import { Stack } from 'expo-router';
 import { StyleSheet, View, Text, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity } from 'react-native';
 
-import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { useEffect, useState } from 'react';
 import { useManaVigorStore } from '~/components/zustand';
+import { useLoadFonts } from '~/components/fonts';
 
 export default function Vigor() {
+  const fontsLoaded = useLoadFonts();
+  
   const [vigorMaximo, setVigorMaximo] = useState('');
   const [vigorGasto, setVigorGasto] = useState('');
   const [recuperarVigor, setRecuperarVigor] = useState('');

@@ -1,15 +1,19 @@
 import { Stack } from 'expo-router';
 import { StyleSheet, View, Text, TouchableWithoutFeedback, TouchableOpacity, TextInput, Keyboard } from 'react-native';
 
-import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { useEffect, useState } from 'react';
 import { useManaVigorStore } from '~/components/zustand';
+
+import { useLoadFonts } from '~/components/fonts';
 
 const trunc = (num, dec = 0) => {
   const factor = 10 ** dec;
   return Math.trunc(num * factor) / factor;
 };
+
 export default function Cura() {
+  const fontsLoaded = useLoadFonts();
+
   const [manaMaxima, setManaMaxima] = useState('');
   const [manaGasta, setManaGasta] = useState('');
   const [recuperarMana, setRecuperarMana] = useState('');

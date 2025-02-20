@@ -175,7 +175,7 @@ const trunc = (num, dec = 0) => {
           keyboardType="number-pad"
           placeholder="Valor Aum. Dano Fix (%)"
           placeholderTextColor="#f8d3cf"
-          maxLength={maxLength}
+          maxLength={3}
           onChangeText={text => setValorAumDmgFix(text)}
           value={valorAumDmgFix}
         />
@@ -223,7 +223,7 @@ const trunc = (num, dec = 0) => {
           keyboardType="number-pad"
           placeholder="Valor de Amplificação (%)"
           placeholderTextColor="#f8d3cf"
-          maxLength={maxLength}
+          maxLength={3}
           onChangeText={text => setValorAmp(text)}
           value={valorAmp}
         />
@@ -271,7 +271,7 @@ const trunc = (num, dec = 0) => {
           keyboardType="number-pad"
           placeholder="Valor Amp. Externa (%)"
           placeholderTextColor="#f8d3cf"
-          maxLength={maxLength}
+          maxLength={3}
           onChangeText={text => setValorAmpExt(text)}
           value={valorAmpExt}
         />
@@ -295,7 +295,7 @@ const trunc = (num, dec = 0) => {
           keyboardType="number-pad"
           placeholder="Valor Dano Final (%)"
           placeholderTextColor="#f8d3cf"
-          maxLength={maxLength}
+          maxLength={3}
           onChangeText={text => setValorDmgFinal(text)}
           value={valorDmgFinal}
         />
